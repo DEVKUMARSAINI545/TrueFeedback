@@ -26,7 +26,7 @@ export interface User extends Document{
     password:string,
     verifyCode:string,
     verifyCodeExpire:string,
-    message:Message[],
+    messages:Message[],
     isVerified:boolean,
     isAcceptingMessage:Boolean
 }
@@ -64,7 +64,7 @@ const UserSchema:Schema<User> = new Schema({
         type:Boolean,
         default:false,
     },
-    message:[MessageSchema]
+    messages:[MessageSchema]
 },{timestamps:true})
 
 
