@@ -13,12 +13,14 @@ import { Loader2 } from 'lucide-react';
 const page = () => {
   const [InputText,setInputText] = useState('')
   const [isLoading, setLoading] = useState(false); // Add loading state for button feedback
+  const [isSendingLoader,setIsSendingLoader] = useState(false)
   const [suggestedMessage, setSuggestedMessage] = useState<string>("");
     const pathname = usePathname(); // e.g., /profile/anjali
     const username = pathname?.split('/')[2]; // Adjust index as per your route
     const router = useRouter()
   const [Text,setText] = useState('')
     const handleSendMessage=async()=>{
+      setIsSendingLoader(true)
       try {
         const response = await axios.post<ApiResponse>(`/api/send-message`,{username,content:Text})
         console.log(response.data.message);
@@ -27,7 +29,10 @@ const page = () => {
       } catch (error) {
         const axiosError = error as AxiosError<ApiResponse>
         toast(axiosError.response?.data?.message,{description:"Failed to fetch message settings"})
+        setIsSendingLoader(false)
       
+      }finally{
+        setIsSendingLoader(false)
       }
     }
   
@@ -50,9 +55,9 @@ const page = () => {
     };
 
     const CopyClipBoard = (msg:string)=>{
+      setInputText(msg)
       navigator.clipboard.writeText(msg)
       toast('Suggest Message Copy')
-      setInputText(msg)
     }
      
   
@@ -63,7 +68,7 @@ const page = () => {
       <p className='font-semibold tracking-tight '>Send Anonymous Messge to @{username}</p>
     <Textarea defaultValue={InputText}  onChange={(e)=>setText(e.target.value)} className='border-2 border-black mt-4 w-[50rem] h-40' placeholder='Write your anonymous message..' />
     <div className="div w-[50rem] flex justify-center items-center mt-2 h-10">
-    <Button onClick={handleSendMessage}>Send</Button>
+    <Button onClick={handleSendMessage}>{isSendingLoader == true ? (<><Loader2 className='mr-2 h-4 w-4 animate-spin'/>Sending...</>):("Send")}</Button>
     </div>
 
     <Button onClick={fetchSuggestMessage}>

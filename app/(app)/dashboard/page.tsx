@@ -23,6 +23,7 @@ export default function dashboard() {
   const [isLoading,setIsLoading] = useState(false)
   const [isSwitchLoading,setIsSwitchLoading] = useState(false)
   const handleDeleteMessage=(messageId:string)=>{
+    fetchMessages(true)
     setMessages(messages.filter((message)=>message._id !== messageId))
  
   }
@@ -94,7 +95,12 @@ try {
     toast('URL Copy',{description:"Profile URL has been copied to clipboard"})
   }
   if(!session || !session.user)
-  {<div>Please Login ....</div>}
+  {
+  <div>Please Login ....</div>
+    setTimeout(() => {
+      router.replace("/")
+    }, 2000);
+}
 
 
   return (

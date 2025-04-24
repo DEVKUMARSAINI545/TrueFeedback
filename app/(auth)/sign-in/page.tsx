@@ -76,6 +76,8 @@ import { checkCustomRoutes } from "next/dist/lib/load-custom-routes"
   }
    return (
      <div className="w-screen h-screen bg-white text-black border-2 border-black flex justify-center items-center">
+      <div className="div border-2 border-black p-5 w-[30rem] rounded-lg">
+        <h1 className="text-center my-5 text-4xl font-semibold">True Feedback <br /> Sign In</h1>
        <Form {...form}><form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
        <FormField
           name="username"
@@ -145,8 +147,9 @@ import { checkCustomRoutes } from "next/dist/lib/load-custom-routes"
         </Form>
         <div className="text-center mt-4">
           <p>Already member?{''}
-            <Link href={"/sign-in"} className="text-blue-600 hover:text-blue-800">Sign In</Link>
+            <Link href={"/sign-up"} className="text-blue-600 hover:text-blue-800">Sign Up</Link>
             </p>
+        </div>
         </div>
      </div>
      
