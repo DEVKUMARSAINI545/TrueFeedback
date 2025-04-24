@@ -11,6 +11,7 @@ import { toast } from 'sonner';
 import Link from 'next/link';
 import { Loader2 } from 'lucide-react';
 const page = () => {
+  const [InputText,setInputText] = useState('')
   const [isLoading, setLoading] = useState(false); // Add loading state for button feedback
   const [suggestedMessage, setSuggestedMessage] = useState<string>("");
     const pathname = usePathname(); // e.g., /profile/anjali
@@ -47,6 +48,12 @@ const page = () => {
         setLoading(false); // End loading once the request is complete
       }
     };
+
+    const CopyClipBoard = (msg:string)=>{
+      navigator.clipboard.writeText(msg)
+      toast('Suggest Message Copy')
+      setInputText(msg)
+    }
      
   
   return (
@@ -54,7 +61,7 @@ const page = () => {
     <h1 className="text-5xl font-bold  ">Public Profile Link</h1>
     <div className="div w-full   p-5  pl-52 h-auto ">
       <p className='font-semibold tracking-tight '>Send Anonymous Messge to @{username}</p>
-    <Textarea onChange={(e)=>setText(e.target.value)} className='border-2 border-black mt-4 w-[50rem] h-40' placeholder='Write your anonymous message..' />
+    <Textarea defaultValue={InputText}  onChange={(e)=>setText(e.target.value)} className='border-2 border-black mt-4 w-[50rem] h-40' placeholder='Write your anonymous message..' />
     <div className="div w-[50rem] flex justify-center items-center mt-2 h-10">
     <Button onClick={handleSendMessage}>Send</Button>
     </div>
@@ -70,7 +77,7 @@ const page = () => {
     <div className="div w-full   h-80   pl-52  p-10">
       <h1 className='text-xl font-semibold'>Messages</h1>
      {suggestedMessage.split("||").map((msg, idx) => (
-  <Input
+  <Input onClick={()=>CopyClipBoard(msg)}
     key={idx}
     readOnly
     defaultValue={msg.trim() || "No Message Suggestion "}
