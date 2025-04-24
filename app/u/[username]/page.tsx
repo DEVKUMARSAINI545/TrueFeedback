@@ -5,11 +5,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import axios, { AxiosError } from 'axios';
 import { ApiResponse } from '@/types/ApiResponse';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import Link from 'next/link';
 const page = () => {
+  const [loading, setLoading] = useState(false); // Add loading state for button feedback
+  const [suggestedMessage, setSuggestedMessage] = useState<string>("");
     const pathname = usePathname(); // e.g., /profile/anjali
     const username = pathname?.split('/')[2]; // Adjust index as per your route
     const router = useRouter()
@@ -26,6 +28,25 @@ const page = () => {
       
       }
     }
+  
+    const fetchSuggestMessage = async () => {
+      setLoading(true); // Set loading state while fetching the suggestions
+      try {
+        const response = await axios.get('/api/suggest-message');
+        const firstMessage = response.data.messages?.[0] || "";
+        setSuggestedMessage(firstMessage); // Save the suggested message
+        // console.log(response.data.messages);
+        // const randomMessage = suggestedMessage[Math.floor(Math.random() * suggestedMessage.length)];
+        // setSuggestedMessage(randomMessage);
+      } catch (error) {
+        console.error(error);
+        toast('Failed to fetch suggested messages');
+      } finally {
+        setLoading(false); // End loading once the request is complete
+      }
+    };
+     
+  
   return (
     <div className="w-full h-full p-10 flex flex-col justify-start items-center">
     <h1 className="text-5xl font-bold  ">Public Profile Link</h1>
@@ -36,13 +57,22 @@ const page = () => {
     <Button onClick={handleSendMessage}>Send</Button>
     </div>
 
-    <Button>Suggest message</Button>
+    <Button onClick={fetchSuggestMessage}>Suggest message
+    
+
+    </Button>
     <p className='mt-4'>Click on any message below to select it.</p>
     </div>
     <div className="div w-full   h-80   pl-52  p-10">
       <h1 className='text-xl font-semibold'>Messages</h1>
-      <Input readOnly defaultValue={"What's your favorite movie ?"} className='w-[70rem] cursor-pointer mt-4 border-[1px] border-black'/>
-      <Input readOnly defaultValue={"Do you have any pets ?"} className='w-[70rem] mt-4 cursor-pointer border-[1px] border-black'/>
+     {suggestedMessage.split("||").map((msg, idx) => (
+  <Input
+    key={idx}
+    readOnly
+    defaultValue={msg.trim()}
+    className="w-[70rem] mt-4 cursor-pointer border-[1px] border-black"
+  />
+))}
         
       </div>
       <div className="div w-full flex flex-col justify-center items-center  mt-4 h-20">

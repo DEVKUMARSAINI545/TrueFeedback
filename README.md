@@ -34,3 +34,7 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+
+Create a list of three open-ended and engaging questions formatted as a single string. Each question should be seprated by '||' . These questions are for an anonymous social messaging platform, like Qooh.me and should be suitable for a diverse audience . Avoid personal or sensitive toics, focusing instead on universal themse that encourage friendly interaction. for example , your output should be structured like this: 'What's a hobby you've recently started ?|| If you could have dinner with any historical figure, Who would it be ? || What's simple thing that make you happy?. Ensure the questions are intriguing , foster curiosity and contribute to a positive and welcoming converstation enviroment.
