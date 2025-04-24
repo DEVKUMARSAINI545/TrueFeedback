@@ -9,8 +9,9 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import Link from 'next/link';
+import { Loader2 } from 'lucide-react';
 const page = () => {
-  const [loading, setLoading] = useState(false); // Add loading state for button feedback
+  const [isLoading, setLoading] = useState(false); // Add loading state for button feedback
   const [suggestedMessage, setSuggestedMessage] = useState<string>("");
     const pathname = usePathname(); // e.g., /profile/anjali
     const username = pathname?.split('/')[2]; // Adjust index as per your route
@@ -38,6 +39,7 @@ const page = () => {
         // console.log(response.data.messages);
         // const randomMessage = suggestedMessage[Math.floor(Math.random() * suggestedMessage.length)];
         // setSuggestedMessage(randomMessage);
+    
       } catch (error) {
         console.error(error);
         toast('Failed to fetch suggested messages');
@@ -57,8 +59,10 @@ const page = () => {
     <Button onClick={handleSendMessage}>Send</Button>
     </div>
 
-    <Button onClick={fetchSuggestMessage}>Suggest message
-    
+    <Button onClick={fetchSuggestMessage}>
+      {isLoading==true ? ( <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Suggesting...
+                  </>):('Suggest message')}
 
     </Button>
     <p className='mt-4'>Click on any message below to select it.</p>
@@ -69,8 +73,8 @@ const page = () => {
   <Input
     key={idx}
     readOnly
-    defaultValue={msg.trim()}
-    className="w-[70rem] mt-4 cursor-pointer border-[1px] border-black"
+    defaultValue={msg.trim() || "No Message Suggestion "}
+    className="w-[70rem] mt-4 cursor-pointer "
   />
 ))}
         
