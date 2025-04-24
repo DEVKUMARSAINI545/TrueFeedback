@@ -23,7 +23,7 @@ export async function POST(request:Request)
         const newMessage = {content,createAt:new Date()}
         user.messages.push(newMessage as Message)
         await user.save()
-        return Response.json({success:true,message:"  messages send successfully"},{status:403})
+        return Response.json({success:true,message:"messages send successfully"},{status:200})
      
     } catch (error) {
         console.log("Error while checking username is unique: ",error)

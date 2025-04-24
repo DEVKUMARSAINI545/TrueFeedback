@@ -9,19 +9,22 @@ import { MessageAcceptSchema } from "@/Schema/MessageAccept.Schema";
 import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
-import { Loader2, RefreshCcw } from "lucide-react";
+import { Loader2, RefreshCcw, Router } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {toast} from "sonner"
 import * as z from "zod"
 export default function dashboard() {
+  const router = useRouter()
   const [messages,setMessages] = useState<Message[]>([]);
   const [isLoading,setIsLoading] = useState(false)
   const [isSwitchLoading,setIsSwitchLoading] = useState(false)
   const handleDeleteMessage=(messageId:string)=>{
     setMessages(messages.filter((message)=>message._id !== messageId))
+ 
   }
   const {data:session} = useSession()
   const form = useForm<z.infer<typeof MessageAcceptSchema>>({resolver:zodResolver(MessageAcceptSchema)})
@@ -73,6 +76,7 @@ try {
 
   const handleSwitchChange = async()=>{
     try {
+      
       const response = await axios.post<ApiResponse>('/api/accept-messages',{acceptMessage:!acceptMessages})
       setValue('acceptMessages',!acceptMessages)
       toast(response.data.message)
@@ -90,7 +94,7 @@ try {
     toast('URL Copy',{description:"Profile URL has been copied to clipboard"})
   }
   if(!session || !session.user)
-  {return <div>Please Login</div>}
+  {<div>Please Login ....</div>}
 
 
   return (
