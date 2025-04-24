@@ -11,7 +11,7 @@ const NavBar = () => {
          return (
         <div className='  px-24   bg-indigo-950  overflow-hidden w-full  h-24 flex justify-between  items-center'>
       <h1 className=' text-2xl font-bold text-white'>True Feedback</h1>
-      <p className='text-white text-xl'>Welcome, {session?.user?.username}</p>
+      <p className='text-white text-xl'>{session && "Welcome, "+session?.user?.username}</p>
        {session? <Button onClick={()=>signOut()} variant="NavBarButton">Logout</Button> : <Button onClick={()=>signIn("/sign-in")} variant="NavBarButton">Login</Button> }
    
     </div>
