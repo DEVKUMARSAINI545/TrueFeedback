@@ -9,6 +9,7 @@ import { MessageAcceptSchema } from "@/Schema/MessageAccept.Schema";
 import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
+import { Loader2, RefreshCcw } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
@@ -16,7 +17,7 @@ import { useForm } from "react-hook-form";
 import {toast} from "sonner"
 import * as z from "zod"
 export default function dashboard() {
-  const [messages,setMessages] = useState<Message[]>([])
+  const [messages,setMessages] = useState<Message[]>([]);
   const [isLoading,setIsLoading] = useState(false)
   const [isSwitchLoading,setIsSwitchLoading] = useState(false)
   const handleDeleteMessage=(messageId:string)=>{
@@ -37,15 +38,18 @@ try {
 } finally{
   setIsSwitchLoading(false)
 }
-  },[setValue,])
+  },[setValue])
 
 
   const fetchMessages = useCallback(async(refresh:boolean=false)=>{
     setIsLoading(true)
     setIsSwitchLoading(false)
     try {
-      const response = await axios.get<ApiResponse>("/api/get-messages")
-      // setMessages(response?.data?.message || [])
+      const response = await axios.get<ApiResponse>("/api/get-message")
+      setMessages(response.data?.messages || []);
+       
+      
+      
       if(refresh)
       {
         toast('Refresh Messages',{description:"Showing Latest messages"})
@@ -78,8 +82,8 @@ try {
     
     }
   }
-  const baseURL = `${window.location.protocol} // ${window.location.host}`
-  const profileURl = `${baseURL}/u/${session?.user?.username}`
+  // const baseURL = `${window.location.protocol} // ${window.location.host}`
+  const profileURl = `${"http://localhost:3000"}/u/${session?.user?.username}`
 
   const CopyToClipBoard = ()=>{
     navigator.clipboard.writeText(profileURl)
@@ -94,7 +98,7 @@ try {
       <h1 className="text-5xl my-1 font-bold">User Dashboard</h1>
       <p className="text-2xl mt-4 font-bold">Copy Your Unique Link</p>
       <div className="div gap-2  w-[80%] my-5 h-10 flex justify-between items-center">
-        <Input   disabled value={profileURl} className="text-2xl  font-bold" />
+        <Input   disabled defaultValue={profileURl} className="text-2xl  font-bold" />
         <Button onClick={CopyToClipBoard}>Copy</Button>
       </div>
       <div className="div w-full   flex gap-3  items-center">
@@ -107,6 +111,16 @@ try {
       <h1 className="mb-3 ">Accept message : {acceptMessages?"On":"Off"}</h1>
       </div>
       <Separator />
+      <Button  className="mt-4" variant="outline" onClick={(e)=>{e.preventDefault();fetchMessages(true)}}>
+
+        {isLoading?(<Loader2 className="h-4 w-4 animate-spin"/>):(<RefreshCcw className="h-4 w-4"/>)}
+      </Button>
+
+      <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+        {messages.length>0 ?messages.map((message,index)=>{
+         return <MessageCard key={index} message={message} onMessageDelete={handleDeleteMessage}/>
+        }):(<p>No Message Display</p>)}
+      </div>
     </div>
   );
 }

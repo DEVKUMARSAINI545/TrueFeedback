@@ -6,12 +6,14 @@ import {User} from "next-auth"
 
 
  
-export async function DELETE(requrest:Request,{params}:{params:{messageId:string}})
+export async function DELETE(request:Request,{params}:{params:{messageid:string}})
 {
- const messageId =  params.messageId
+ const messageId =  params.messageid
     await dbConnect()
     const session = await getServerSession(AuthOptions)
     const user:User = session?.user as User
+  
+    
     if(!session)
     {
         return Response.json({success:false,message:"No Authenticated"},{status:401})
