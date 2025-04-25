@@ -18,7 +18,9 @@ import { useForm } from "react-hook-form";
 import {toast} from "sonner"
 import * as z from "zod"
 export default function dashboard() {
+  const {data:session} = useSession()
   const router = useRouter()
+  const [hostData, setHostData] = useState('');
   const [messages,setMessages] = useState<Message[]>([]);
   const [isLoading,setIsLoading] = useState(false)
   const [isSwitchLoading,setIsSwitchLoading] = useState(false)
@@ -27,7 +29,6 @@ export default function dashboard() {
     setMessages(messages.filter((message)=>message._id !== messageId))
  
   }
-  const {data:session} = useSession()
   const form = useForm<z.infer<typeof MessageAcceptSchema>>({resolver:zodResolver(MessageAcceptSchema)})
   const {watch ,register,setValue } = useForm()
   const acceptMessages = watch('acceptMessages')
@@ -87,11 +88,10 @@ try {
     
     }
   }
-  const baseURL = `${window.location.protocol} // ${window.location.host}`
-  const profileURl = `${baseURL}/u/${session?.user?.username}`
+  
 
   const CopyToClipBoard = ()=>{
-    navigator.clipboard.writeText(profileURl)
+    navigator.clipboard.writeText(hostData)
     toast('URL Copy',{description:"Profile URL has been copied to clipboard"})
   }
   if(!session || !session.user)
@@ -100,13 +100,18 @@ try {
    
 }
 
+useEffect(() => {
+  const hostname = window.location.hostname;
+  const host = window.location.host;
+  setHostData(`${hostname} // ${host}`);
+}, []);
 
   return (
     <div className="   h-full w-full p-12   ">
       <h1 className="text-5xl my-1 font-bold">User Dashboard</h1>
       <p className="text-2xl mt-4 font-bold">Copy Your Unique Link</p>
       <div className="div gap-2  w-[80%] my-5 h-10 flex justify-between items-center">
-        <Input   disabled defaultValue={profileURl} className="text-2xl  font-bold" />
+        <Input   disabled defaultValue={hostData} className="text-2xl  font-bold" />
         <Button onClick={CopyToClipBoard}>Copy</Button>
       </div>
       <div className="div w-full   flex gap-3  items-center">
