@@ -4,7 +4,7 @@ import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User.model";
 import { User } from "next-auth";
 
-export async function DELETE(
+export async function POST(
   request: Request,
   context: { params: { messageid: string } }
 ) {
