@@ -10,7 +10,15 @@ import {
 import message from "../../Data/messages.json"
 import AutoPlay from "embla-carousel-autoplay"
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 export default function home() {
+  const router = useRouter()
+  const {data:session} = useSession()
+  if(session)
+  {
+router.replace("/dashboard")
+  }
   return (
  <>
  <div className="div w-full text-white h-[87%] bg-[#0e1c2a] flex flex-col justify-center items-center">
