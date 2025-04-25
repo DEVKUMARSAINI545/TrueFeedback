@@ -110,7 +110,7 @@ useEffect(() => {
   
   return (
     <div className="   h-full w-full p-12   ">
-      <h1 className="text-5xl my-1 font-bold">User Dashboard</h1>
+      <h1 className="text-5xl my-1 font-bold">dev Dashboard</h1>
       <p className="text-2xl mt-4 font-bold">Copy Your Unique Link</p>
       <div className="div gap-2  w-[80%] my-5 h-10 flex justify-between items-center">
       <Input
