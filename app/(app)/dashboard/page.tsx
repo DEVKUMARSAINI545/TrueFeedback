@@ -87,8 +87,8 @@ try {
     
     }
   }
-  // const baseURL = `${window.location.protocol} // ${window.location.host}`
-  const profileURl = `${"http://localhost:3000"}/u/${session?.user?.username}`
+  const baseURL = `${window.location.protocol} // ${window.location.host}`
+  const profileURl = `${baseURL}/u/${session?.user?.username}`
 
   const CopyToClipBoard = ()=>{
     navigator.clipboard.writeText(profileURl)
