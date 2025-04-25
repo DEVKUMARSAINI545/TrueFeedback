@@ -13,13 +13,14 @@ import { Loader2, RefreshCcw, Router } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import {toast} from "sonner"
 import * as z from "zod"
 export default function dashboard() {
   const {data:session} = useSession()
   const router = useRouter()
+  const inputRef = useRef<HTMLInputElement>(null);
   const username = session?.user?.username
   const [hostData, setHostData] = useState('');
   const [messages,setMessages] = useState<Message[]>([]);
@@ -92,8 +93,13 @@ try {
   
 
   const CopyToClipBoard = ()=>{
-    navigator.clipboard.writeText(hostData)
-    toast('URL Copy',{description:"Profile URL has been copied to clipboard"})
+    // const data = document.body.querySelector(".BASEURL")
+    if(inputRef.current)
+    {
+
+      navigator.clipboard.writeText(inputRef.current.value)
+      toast('URL Copy',{description:"Profile URL has been copied to clipboard"})
+    }
   }
   if(!session || !session.user)
   {
@@ -101,11 +107,8 @@ try {
    
 }
 
-useEffect(() => {
-  if (typeof window !== 'undefined') {
-    setHostData(origin && session?.user?.username ? `${origin}/u/${session.user.username}` : '');
-  }
-}, []);
+const defaultValue =
+origin && session?.user?.username ? `${origin}/u/${session.user.username}` : "";
 
   
   return (
@@ -113,10 +116,10 @@ useEffect(() => {
       <h1 className="text-5xl my-1 font-bold">dev Dashboard</h1>
       <p className="text-2xl mt-4 font-bold">Copy Your Unique Link</p>
       <div className="div gap-2  w-[80%] my-5 h-10 flex justify-between items-center">
-      <Input
-  disabled
-  defaultValue={hostData}
-  className="text-2xl font-bold"
+      <Input ref={inputRef}
+  readOnly
+  defaultValue={defaultValue}
+  className="BASEURL text-2xl font-bold"
 />
         <Button onClick={CopyToClipBoard}>Copy</Button>
       </div>
