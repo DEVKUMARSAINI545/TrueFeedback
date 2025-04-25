@@ -5,10 +5,10 @@ import UserModel from "@/model/User.model";
 import { User } from "next-auth";
 
 export async function POST(
-  request: Request,
-  context: { params: { messageid: string } }
+  req:Request,
+  { params }: { params: { messageid: string } }
 ) {
-  const { messageid } = context.params;
+  const { messageid } = params;
 
   await dbConnect();
   const session = await getServerSession(AuthOptions);
