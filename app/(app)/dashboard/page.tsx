@@ -97,9 +97,7 @@ try {
   if(!session || !session.user)
   {
   <div>Please Login ....</div>
-    setTimeout(() => {
-      router.replace("/")
-    }, 2000);
+   
 }
 
 
