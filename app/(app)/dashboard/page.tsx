@@ -102,7 +102,7 @@ try {
 
 useEffect(() => {
   const hostname = window.location.hostname;
-  const host = session?.user?.username;
+  const host = session && session?.user.username;
   setHostData(`${hostname} /u/ ${host}`);
 }, []);
 
