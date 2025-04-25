@@ -22,7 +22,7 @@ export default function dashboard() {
   const router = useRouter()
   const inputRef = useRef<HTMLInputElement>(null);
   const username = session?.user?.username
-  const [hostData, setHostData] = useState('');
+  const [origin, setOrigin] = useState("");
   const [messages,setMessages] = useState<Message[]>([]);
   const [isLoading,setIsLoading] = useState(false)
   const [isSwitchLoading,setIsSwitchLoading] = useState(false)
@@ -110,6 +110,12 @@ try {
  
 
   
+useEffect(() => {
+  if (typeof window !== "undefined") {
+    // Set the origin to window.location.origin on the client-side
+    setOrigin(window.location.origin);
+  }
+}, []);
   return (
     <div className="   h-full w-full p-12   ">
       <h1 className="text-5xl my-1 font-bold">dev Dashboard</h1>
