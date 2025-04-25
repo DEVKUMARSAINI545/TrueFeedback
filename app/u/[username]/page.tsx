@@ -55,8 +55,8 @@ const page = () => {
     };
 
     const CopyClipBoard = (msg:string)=>{
-      setInputText(msg)
       navigator.clipboard.writeText(msg)
+      setText(msg)
       toast('Suggest Message Copy')
     }
      
@@ -66,7 +66,7 @@ const page = () => {
     <h1 className="text-5xl font-bold  ">Public Profile Link</h1>
     <div className="div w-full   p-5  pl-52 h-auto ">
       <p className='font-semibold tracking-tight '>Send Anonymous Messge to @{username}</p>
-    <Textarea defaultValue={InputText}  onChange={(e)=>setText(e.target.value)} className='border-2 border-black mt-4 w-[50rem] h-40' placeholder='Write your anonymous message..' />
+    <Textarea defaultValue={Text}  onChange={(e)=>setText(e.target.value)} className='border-2 border-black mt-4 w-[50rem] h-40' placeholder='Write your anonymous message..' />
     <div className="div w-[50rem] flex justify-center items-center mt-2 h-10">
     <Button onClick={handleSendMessage}>{isSendingLoader == true ? (<><Loader2 className='mr-2 h-4 w-4 animate-spin'/>Sending...</>):("Send")}</Button>
     </div>

@@ -74,15 +74,27 @@ try {
 
   useEffect(()=>{
     if(!session || !session.user) return
+    const storedAcceptMessages = localStorage.getItem('acceptMessages');
+    if (storedAcceptMessages) {
+      // If found, parse and set the state
+      setValue('acceptMessages', JSON.parse(storedAcceptMessages));
+    } 
+    else{
+
+      fetch(); // Fetch from the server if localStorage doesn't have the value
+    }
     fetchMessages()
-    fetch()
   },[session,setValue,fetchMessages,fetch])
 
   const handleSwitchChange = async()=>{
     try {
-      
-      const response = await axios.post<ApiResponse>('/api/accept-messages',{acceptMessage:!acceptMessages})
-      setValue('acceptMessages',!acceptMessages)
+      const newAcceptMessages = !acceptMessages;
+
+      localStorage.setItem('acceptMessages', JSON.stringify(newAcceptMessages));
+
+
+      const response = await axios.post<ApiResponse>('/api/accept-messages',{acceptMessage:newAcceptMessages})
+      setValue('acceptMessages',newAcceptMessages)
       toast(response.data.message)
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>
