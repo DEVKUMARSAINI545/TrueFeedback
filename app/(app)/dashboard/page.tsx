@@ -107,8 +107,7 @@ try {
    
 }
 
-const defaultValue =
-origin && session?.user?.username ? `${origin}/u/${session.user.username}` : "";
+ 
 
   
   return (
@@ -118,7 +117,7 @@ origin && session?.user?.username ? `${origin}/u/${session.user.username}` : "";
       <div className="div gap-2  w-[80%] my-5 h-10 flex justify-between items-center">
       <Input ref={inputRef}
   readOnly
-  defaultValue={defaultValue}
+  defaultValue={origin && session?.user?.username ? `${origin}/u/${session.user.username}` : ""}
   className="BASEURL text-2xl font-bold"
 />
         <Button onClick={CopyToClipBoard}>Copy</Button>
