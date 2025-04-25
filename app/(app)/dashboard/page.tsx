@@ -102,7 +102,9 @@ try {
 }
 
 useEffect(() => {
-  setHostData(window.location.hostname);
+  if (typeof window !== 'undefined') {
+    setHostData(window.location.origin);
+  }
 }, []);
 
   
@@ -113,7 +115,7 @@ useEffect(() => {
       <div className="div gap-2  w-[80%] my-5 h-10 flex justify-between items-center">
       <Input
   disabled
-  defaultValue={`${typeof window !== 'undefined' ? window.location.origin : ''}/u/${username}`}
+  defaultValue={origin && session?.user?.username ? `${origin}/u/${session.user.username}` : ''}
   className="text-2xl font-bold"
 />
         <Button onClick={CopyToClipBoard}>Copy</Button>
