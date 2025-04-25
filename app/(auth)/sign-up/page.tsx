@@ -6,8 +6,9 @@ import { SignInSchema } from '@/Schema/SignIn.Schema'
 import { ApiResponse } from '@/types/ApiResponse'
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios, { AxiosError } from 'axios'
-import { Loader2 } from 'lucide-react'
+import {  Loader2 } from 'lucide-react'
 import { signIn } from 'next-auth/react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -88,12 +89,18 @@ export default function page() {
               <FormMessage />
             </FormItem>
           )}
-        />
+          />
         <Button type="submit">
-          {isLoading == true ?( <Loader2 className="mr-2 h-4 w-4 animate-spin" >Please Wait..</Loader2>):("Submit")}
+          {isLoading == true ?(<> <Loader2 className="mr-2 h-4 w-4 animate-spin" />Please wait...</>):("Submit")}
         </Button>
+           
       </form>
     </Form>
+    <div className="text-center mt-4">
+          <p>Create a new  account?{''}
+             <Link href={"/sign-in"} className='text-blue-800 font-semibold underline'> Sign In</Link>
+            </p>
+        </div>
        </div>
       </div>
     </div>
